@@ -28,7 +28,7 @@ export class CoffeesController {
     return this.coffeesService.findAll(request[REQUEST_USER_KEY].sub,paginationQuery);
   }
 
-  @IsPublic(false)
+  @IsPublic(true)
   @Get(':id')
   findOne(@Param('id') id: number) {
     // console.log(typeof id);
