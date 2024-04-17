@@ -1,56 +1,37 @@
 # 简介
 
-本仓库是学习 [《NestJS Fundamentals Course》](https://courses.nestjs.com/#overview) 课程的个人代码实践
+nest.js version 10.0 app
 
 # 说明
 
-## 启动
+node version: v18.13.0
 
-1. 启动docker app
-2. 启动docker容器
-   ```shell
-   // 在后台运行服务
-   docker-compose up -d
-   ```
-3. 启动项目
-   ```shell
-   yarn start:dev
-   ```
+npm version:
 
-### ### 生产环境
+### 开发环境
 
-#### 打包
+启动项目 `yarn start:dev`
 
-yarn build
+### 生产环境
 
-#### 打包后更新
+打包 `yarn build`
 
-pm2 reload `<id>`
+打包后更新 `pm2 reload <id>```
 
-### 待办
 
-增加日志保存
+### nest 常用命令
 
-#### 生成模块
+生成模块 `nest g mo <name>`
 
-nest g mo `<name>`
+生成控制器 `nest g co <name>`
 
-#### 生成控制器
+生成服务 `nest g s <name>`
 
-nest g co `<name>`
 
-#### 生成服务
+### 文件路径
 
-nest g s `<name>`
+log path:`  ~/.logs/nestjs_app`
 
-#### log path
+db path: `~/.sqlite`
 
-~/.logs/nestjs_app
-
-#### db path
-
-~/.sqlite
-
-#### sh path
-
-~/.bin/nestjs_app/
+shell path:`~/.bin/nestjs_app/`
