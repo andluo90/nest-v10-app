@@ -18,7 +18,7 @@ export class GoldPriceController {
           <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>金价</title>
+              <title>今日金价</title>
           </head>
           <body>
             <h2>当前价格: ${price.current}</h2>
@@ -42,7 +42,7 @@ export class GoldPriceController {
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>金价</title>
+            <title>最新金价</title>
           </head>
           <body>
             <h2>最新价格: ${price.current}</h2>
