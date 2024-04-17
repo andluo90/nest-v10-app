@@ -19,10 +19,16 @@ import { EmailModule } from './email/email.module';
 import { LoggerModule } from './logger/logger.module';
 import * as os from 'os';
 import * as path from 'path';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 100,
+    }]),
     ConfigModule.forRoot({
       envFilePath: path.resolve(os.homedir(), '.env'),
       validationSchema: Joi.object({
@@ -53,7 +59,11 @@ import * as path from 'path';
     LoggerModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,    {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard,
+  },
+],
 })
 export class AppModule {
   constructor(){
