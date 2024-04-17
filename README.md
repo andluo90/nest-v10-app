@@ -30,6 +30,20 @@
 
     生成服务`nest g s <name>`
 
+### nest  scope
+
+#### 请求生命周期
+
+![1713344214072](image/README/1713344214072.png)
+
+![1713344230936](image/README/1713344230936.png)
+
+#### 响应生命周期
+
+![1713344559673](image/README/1713344559673.png)
+
+![1713344577739](image/README/1713344577739.png)
+
 ### 文件路径
 
     log:`  ~/.logs/nestjs_app`
