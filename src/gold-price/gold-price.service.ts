@@ -91,4 +91,38 @@ export class GoldPriceService {
         }
     }
 
+    private getSpan(price1:number,price2:number,pricePercent:string|null=null){
+        return `<span style="color: ${price1 - price2 > 0 ? 'green':'red'};">${pricePercent?pricePercent:price1}</span>`
+    }
+
+    getHtmlTemplate(price:GoldPrice,type:string = 'today'){
+        const title = type === 'today' ? '今日':'最新'
+        const current = Number(price.current)
+        const todayStart = Number(price.todayStart)
+        const yestodayEnd = Number(price.yestodayEnd)
+        const todayHigh = Number(price.todayHigh)
+        const todayLow = Number(price.todayLow)
+        const pricePercent = (((current - todayStart)/todayStart) * 100).toFixed(2) + '%'
+
+        return `<html>
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>${title}金价</title>
+          </head>
+          <body>
+            <div style="text-align: center;">
+              <h2>当前价格: ${this.getSpan(current,todayStart)}</h2>
+              <h2>涨幅: ${this.getSpan(current,todayStart,pricePercent)}</h2>
+              <h2>今日最高: ${this.getSpan(todayHigh,todayStart)}</h2>
+              <h2>今日最低: ${this.getSpan(todayLow,todayStart)}</h2>
+              <h2>今日开盘: ${this.getSpan(todayStart,yestodayEnd)}</h2>
+              <h2>昨天收盘: ${yestodayEnd}</h2>
+              <h2>日期: ${price.date}</h2>            
+            </div>
+
+          </body>
+        </html>`
+    }
+
 }

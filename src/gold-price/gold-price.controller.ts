@@ -13,47 +13,17 @@ export class GoldPriceController {
     async todayPrice(@Res({ passthrough: true }) res: Response) {
       const price = await this.goldPriceService.getTodayPrice();
       res.setHeader('Content-Type', 'text/html')
-      res.send(
-        `<html>
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>今日金价</title>
-          </head>
-          <body>
-            <h2>当前价格: ${price.current}</h2>
-            <h2>今日最高: ${price.todayHigh}</h2>
-            <h2>今日最低: ${price.todayLow}</h2>
-            <h2>今日开盘: ${price.todayStart}</h2>
-            <h2>昨天收盘: ${price.yestodayEnd}</h2>
-            <h2>日期: ${price.date}</h2>
-          </body>
-        </html>`
-      );
+      const template = this.goldPriceService.getHtmlTemplate(price,'today')
+      res.send(template);
     }
 
     @IsPublic(true)
     @Get('lastest-price')
     async lastestPrice(@Res({ passthrough: true }) res: Response) {
       const price = await this.goldPriceService.getLastestPrice();
+      const template = this.goldPriceService.getHtmlTemplate(price,'lastest')
       res.setHeader('Content-Type', 'text/html')
-      res.send(
-        `<html>
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>最新金价</title>
-          </head>
-          <body>
-            <h2>最新价格: ${price.current}</h2>
-            <h2>今日最高: ${price.todayHigh}</h2>
-            <h2>今日最低: ${price.todayLow}</h2>
-            <h2>今日开盘: ${price.todayStart}</h2>
-            <h2>昨天收盘: ${price.yestodayEnd}</h2>
-            <h2>日期: ${price.date}</h2>
-          </body>
-        </html>`
-      );
+      res.send(template);
 
     }    
     
