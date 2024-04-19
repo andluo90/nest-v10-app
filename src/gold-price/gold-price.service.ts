@@ -92,7 +92,7 @@ export class GoldPriceService {
     }
 
     private getSpan(price1:number,price2:number,pricePercent:string|null=null){
-        return `<span style="color: ${price1 - price2 > 0 ? 'green':'red'};">${pricePercent?pricePercent:price1}</span>`
+        return `<span style="color: ${price1 - price2 > 0 ? 'red':'green'};">${pricePercent?pricePercent:price1}</span>`
     }
 
     getHtmlTemplate(price:GoldPrice,type:string = 'today'){
@@ -112,13 +112,13 @@ export class GoldPriceService {
           </head>
           <body>
             <div style="text-align: center;">
-              <h2>当前价格: ${this.getSpan(current,todayStart)}</h2>
-              <h2>涨幅: ${this.getSpan(current,todayStart,pricePercent)}</h2>
-              <h2>今日最高: ${this.getSpan(todayHigh,todayStart)}</h2>
-              <h2>今日最低: ${this.getSpan(todayLow,todayStart)}</h2>
-              <h2>今日开盘: ${this.getSpan(todayStart,yestodayEnd)}</h2>
-              <h2>昨天收盘: ${yestodayEnd}</h2>
-              <h2>日期: ${price.date}</h2>            
+              <h2>${this.getSpan(current,todayStart)}</h2>
+              <h3>涨幅: ${this.getSpan(current,todayStart,(current - todayStart)+'')} ${this.getSpan(current,todayStart,pricePercent)}</h3>
+              <h3>今日最高: ${this.getSpan(todayHigh,todayStart)}</h3>
+              <h3>今日最低: ${this.getSpan(todayLow,todayStart)}</h3>
+              <h3>今日开盘: ${this.getSpan(todayStart,yestodayEnd)}</h3>
+              <h3>昨天收盘: ${yestodayEnd}</h3>
+              <h3>日期: ${price.date}</h3>            
             </div>
 
           </body>
