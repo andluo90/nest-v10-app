@@ -103,7 +103,8 @@ export class GoldPriceService {
         const todayHigh = Number(price.todayHigh)
         const todayLow = Number(price.todayLow)
         const pricePercent = (((current - todayStart)/todayStart) * 100).toFixed(2) + '%'
-
+        const priceChangePercent = (current - todayStart).toFixed(2)
+        const flag = current - todayStart > 0 ? '+':'-'
         return `<html>
           <head>
               <meta charset="UTF-8">
@@ -113,7 +114,7 @@ export class GoldPriceService {
           <body>
             <div style="text-align: center;">
               <h2>${this.getSpan(current,todayStart)}</h2>
-              <h3>涨幅: ${this.getSpan(current,todayStart,(current - todayStart)+'')} ${this.getSpan(current,todayStart,pricePercent)}</h3>
+              <h3>涨幅: ${flag} ${this.getSpan(current,todayStart,priceChangePercent)} ${this.getSpan(current,todayStart,pricePercent)}</h3>
               <h3>今日最高: ${this.getSpan(todayHigh,todayStart)}</h3>
               <h3>今日最低: ${this.getSpan(todayLow,todayStart)}</h3>
               <h3>今日开盘: ${this.getSpan(todayStart,yestodayEnd)}</h3>
