@@ -23,14 +23,14 @@ export class CronService {
     @Cron(CronExpression.EVERY_DAY_AT_1PM,{name:'fetchGoldPrice',timeZone:'Asia/Shanghai'})
     async handleCron() {
         this.loggerService.log(`start fetchGoldPrice...`)
-        const error = await this.handleData()
+        const {current,error} = await this.handleData()
         if(error){
           this.loggerService.log(`fetchGoldPrice error:`)
           this.loggerService.logError(error)
           this.emailService.sendEmail('[定时任务-异常]-[fetchGoldPrice]',error.toString())
         }else{
           this.loggerService.log(`fetchGoldPrice done`)
-          this.emailService.sendEmail('[定时任务-成功]-[fetchGoldPrice]',`[定时任务-成功]-[fetchGoldPrice]'`)
+          this.emailService.sendEmail(`[定时任务-成功]-[fetchGoldPrice]:价格${current}`,`[定时任务-成功]-[fetchGoldPrice]'`)
         }
 
     }
@@ -40,11 +40,11 @@ export class CronService {
      */
     async executeCronJob(){
       this.loggerService.log(`executeCronJob()`)
-      const error = await this.handleData()
+      const {current,error} = await this.handleData()
       if(error){
         this.emailService.sendEmail('[手动任务-异常]-[fetchGoldPrice]',error.toString())
       }else{
-        this.emailService.sendEmail('[手动任务-成功]-[fetchGoldPrice]',`[手动任务-成功]-[fetchGoldPrice]'`)
+        this.emailService.sendEmail(`[手动任务-成功]-[fetchGoldPrice]:价格${current}`,`[手动任务-成功]-[fetchGoldPrice]'`)
       }
       return
     }
@@ -78,11 +78,13 @@ export class CronService {
         const lines = text.split('\n');
     
         // Process lines as before
+        let current = ''
         lines.forEach(line => {
           if (line.startsWith('var hq_str_gds_AUTD')) {
             let prices:string[] = line.split('=')[1].replace('"','').split(',');
             
             let goldPrice = new GoldPrice()
+            current = prices[0]
             goldPrice.current = prices[0],
             goldPrice.todayHigh = prices[4],
             goldPrice.todayLow = prices[5],
@@ -93,13 +95,13 @@ export class CronService {
 
           }
         });
-        return false
+        return {current:current,error:null}
       } catch (error) {
         console.error('Error fetching data:', error);
         console.log(`save price error.`);
         this.loggerService.logError(error)
         
-        return error
+        return {current:null,error:error}
       }
     }
 
