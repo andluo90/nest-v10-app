@@ -95,10 +95,12 @@ export class CronService {
 
           }
         });
+        this.loggerService.log(`handleData() success ${current}`)
         return {current:current,error:null}
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('handleData error:', error);
         console.log(`save price error.`);
+        this.loggerService.logError("handleData error:")
         this.loggerService.logError(error)
         
         return {current:null,error:error}
