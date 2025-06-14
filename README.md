@@ -51,3 +51,9 @@
     db:`~/.sqlite`
 
     shell:`~/.bin/nestjs_app/`
+
+### 必须文件(否则会启动报错)
+
+    db:`~/.sqlite`
+
+    env:`~/.env`
