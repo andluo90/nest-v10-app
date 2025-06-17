@@ -21,6 +21,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { SaleModule } from './sale/sale.module';
 
 
 @Module({
@@ -56,7 +57,8 @@ import { APP_GUARD } from '@nestjs/core';
     ScheduleModule.forRoot(),
     CronModule,
     EmailModule,
-    LoggerModule
+    LoggerModule,
+    SaleModule
   ],
   controllers: [AppController],
   providers: [AppService,    {
