@@ -3,23 +3,59 @@ import {
   OnGatewayInit,
   OnGatewayConnection,
   WebSocketServer,
+  SubscribeMessage,
+  MessageBody,
 } from '@nestjs/websockets';
 import { Server, WebSocket } from 'ws';
 import { SaleService } from './sale.service';
 
-@WebSocketGateway({ cors: true }) // 不要写 path
-export class SaleGateway implements OnGatewayInit, OnGatewayConnection {
+interface DataType {
+  url:string
+  sku:string
+  saleHistory:{data:string,saleQuantity:string}[]
+}
+
+@WebSocketGateway() // 不要写 path
+export class SaleGateway {
   @WebSocketServer() server: Server;
+
+  constructor(private readonly saleService: SaleService) {}
 
   handleConnection(client: WebSocket) {
     console.log('客户端已连接');
 
-    client.on('message', (msg: string) => {
-      console.log('收到消息：', msg);
+    client.on('message', async (msg: string) => {
+      console.log('收到消息：',msg);
+      // try {
+      //   const data = JSON.parse(msg);
+      //   await this.saleService.saveSaleData(data);
+      //   client.send(JSON.stringify({ status: 'ok' }));
+      // } catch (err) {
+      //   console.error('Invalid message or save error', err);
+      //   client.send(JSON.stringify({ status: 'error', error: err.message }));
+      // }
     });
+
+    client.on('saleData', async (data: DataType) => {
+      console.log('收到saleData：',data);
+      try {
+        await this.saleService.saveSaleData(data);
+        client.send(JSON.stringify({ status: 'ok' }));
+      } catch (err) {
+        console.error('Invalid message or save error', err);
+        client.send(JSON.stringify({ status: 'error', error: err.message }));
+      }
+    });    
+
   }
 
-  afterInit() {
+  handleDisconnect(client: WebSocket) {
+    console.log(`客户端已断开连接: ${client.id}`);
+  }
+
+  afterInit(server:Server) {
     console.log('WebSocket 已初始化');
   }
+ 
+
 }
