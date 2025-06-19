@@ -15,7 +15,9 @@ interface DataType {
   saleHistory:{data:string,saleQuantity:string}[]
 }
 
-@WebSocketGateway() // 不要写 path
+@WebSocketGateway({cors: {
+    origin: ["https://api.bianxie.ai","https://detail.1688.com","https://air.1688.com"]
+  }}) 
 export class SaleGateway {
   @WebSocketServer() server: Server;
 
@@ -37,9 +39,10 @@ export class SaleGateway {
     });
 
     client.on('saleData', async (data: DataType) => {
-      console.log('收到saleData：',data);
+      console.log('收到saleData');
       try {
         await this.saleService.saveSaleData(data);
+        console.log(`保存成功`);
         client.send(JSON.stringify({ status: 'ok' }));
       } catch (err) {
         console.error('Invalid message or save error', err);

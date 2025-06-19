@@ -35,13 +35,13 @@ async saveSaleData(payload: any) {
       where: {
         url,
         sku,
-        date: h.data,
+        date: h.date,
       },
     });
 
     if (!exists) {
       const history = this.saleHistoryRepo.create({
-        date: h.data,
+        date: h.date,
         saleQuantity: parseFloat(h.saleQuantity),
         sku,
         url,
