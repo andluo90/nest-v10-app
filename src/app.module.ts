@@ -35,13 +35,14 @@ import { SaleModule } from './sale/sale.module';
       validationSchema: Joi.object({
         DATABASE_HOST: Joi.required(),
         DATABASE_PORT: Joi.number().default(5432),
+        NODE_ENV:Joi.required(),
       }),
       load: [appConfig],
     }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       // database: './test.db', // 指定 SQLite 数据库文件路径
-      database: path.resolve(os.homedir(), '.sqlite', 'nestjs_app.db'), // 指定 SQLite 数据库文件路径
+      database: path.resolve(os.homedir(),'sqlite', 'nestjs_app.db'), // 指定 SQLite 数据库文件路径
 
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
@@ -70,7 +71,6 @@ import { SaleModule } from './sale/sale.module';
 export class AppModule {
   constructor(){
     console.log('AppModule env:',process.env.NODE_ENV);
-
     
   }
 }
